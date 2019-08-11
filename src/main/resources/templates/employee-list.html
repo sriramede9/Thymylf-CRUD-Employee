@@ -8,7 +8,18 @@
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 	crossorigin="anonymous">
+<style>
+a:link, a:visited {
 
+  color: white;
+  padding: 10px 15px;
+  text-align: center; 
+  text-decoration: none;
+  display: inline-block;
+}
+
+
+</style>
 
 </head>
 
@@ -25,7 +36,7 @@
 
 		<br>
 
-		<button type="button" class="btn btn-success">Add Employee</button>
+		<button type="button" class="btn btn-success"><a style="text-decoration:none" th:href="@{/addemployee}">Add Employee</a></button>
 
 		<br><br>
 
@@ -44,8 +55,9 @@
 					<td th:text="${emp.first_name}" />
 					<td th:text="${emp.last_name}" />
 					<td th:text="${emp.email}" />
-					<td><button type="button" class="btn btn-primary">Edit</button>
-						<button type="button" class="btn btn-info">Delete</button></td>
+					<td><button type="button" class="btn btn-info"><a style="text-decoration:none"  th:href="@{'/updateemployee/' + ${emp.id}}" >Edit</button>
+						<button type="button" class="btn btn-info" ><a style="text-decoration:none"  th:href="@{'/deleteemployee/' + ${emp.id}}" >Delete</button></td>
+						<!-- <td><a th:href="@{'/appel/edit/' + ${appel.id}}">edit</a></td> -->
 				</tr>
 			</tbody>
 		</table>

@@ -9,4 +9,5 @@ import com.springboot.ThymlfCRUDEmployee.entity.Employeeboot;
 
 public interface EmployeeJpaRepository extends JpaRepository<Employeeboot, Integer> {
 
+	
 }
