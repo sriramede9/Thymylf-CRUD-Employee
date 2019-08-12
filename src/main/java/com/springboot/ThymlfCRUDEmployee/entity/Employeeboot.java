@@ -5,6 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "employeeboot")
@@ -14,10 +16,13 @@ public class Employeeboot {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
+	@Size(min=3,message="minimum 3 chars required")
 	private String first_name;
 
+	@Size(min=3,message="minimum 3 chars required")
 	private String last_name;
 
+	@Email(message="Please provide a valid email address")
 	private String email;
 
 	public int getId() {

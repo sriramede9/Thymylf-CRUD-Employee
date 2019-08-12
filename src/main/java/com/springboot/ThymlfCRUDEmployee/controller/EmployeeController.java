@@ -3,9 +3,12 @@ package com.springboot.ThymlfCRUDEmployee.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -39,9 +42,13 @@ public class EmployeeController {
 	}
 
 	@PostMapping("/formresponse")
-	public String formresponsehere(@ModelAttribute Employeeboot emp) {
+	public String formresponsehere(@Valid @ModelAttribute("employee")  Employeeboot emp,BindingResult result) {
 		System.out.println(emp);
+		if(result.hasErrors()) {
+			return "add-employee";
+		}else {
 		emprepo.save(emp);
+		}
 		return "redirect:/";
 	}
 
