@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.springboot.ThymlfCRUDEmployee.Exception.EmployeeNotFoundException;
 import com.springboot.ThymlfCRUDEmployee.entity.Employeeboot;
 import com.springboot.ThymlfCRUDEmployee.jparepositor.EmployeeJpaRepository;
 
@@ -42,12 +43,15 @@ public class EmployeeController {
 	}
 
 	@PostMapping("/formresponse")
-	public String formresponsehere(@Valid @ModelAttribute("employee")  Employeeboot emp,BindingResult result) {
+	public String formresponsehere(@Valid @ModelAttribute("employee") Employeeboot emp, BindingResult result) {
 		System.out.println(emp);
-		if(result.hasErrors()) {
+		// making sure @Valid which are @Size and @Email javax validation is correct
+		if (result.hasErrors()) {
+			// returning current page is the validations are incorrect
 			return "add-employee";
-		}else {
-		emprepo.save(emp);
+		} else {
+			// or saving the employee
+			emprepo.save(emp);
 		}
 		return "redirect:/";
 	}
@@ -55,15 +59,34 @@ public class EmployeeController {
 	@DeleteMapping("/deleteemployee/{id}")
 	public String dlete(@PathVariable Integer id) {
 
-		emprepo.deleteById(id);
+		// checking if the employee with such id exists if not throwing an exception
+
+		Optional<Employeeboot> findById = emprepo.findById(id);
+
+		Employeeboot employeeboot = findById.get();
+
+		if (employeeboot == null) {
+			throw new EmployeeNotFoundException();// throwing an exception
+		} else {
+
+			// deleting if there is annd employee with such id
+			emprepo.deleteById(id);
+		}
 		return "redirect:/";
 	}
 
 	@RequestMapping(path = "/updateemployee/{id}")
 	public String update(@PathVariable Integer id, Model model) {
+
+		// finding an employee by id
 		Optional<Employeeboot> findById = emprepo.findById(id);
 
 		Employeeboot employeeboot = findById.get();
+
+		// throw exception while if no such employee
+		if (employeeboot == null) {
+			throw new EmployeeNotFoundException();
+		}
 
 		model.addAttribute("employee", employeeboot);
 
